@@ -5,10 +5,12 @@ import Activities from '@/components/Activities';
 import Directory from '@/components/Directory';
 import Contact from '@/components/Contact';
 import Footer from '@/components/Footer';
+import ScrollAnimations from '@/components/ScrollAnimations';
 
 const Index = () => {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen overflow-x-hidden">
+      <ScrollAnimations />
       <Header />
       <main>
         <Hero />

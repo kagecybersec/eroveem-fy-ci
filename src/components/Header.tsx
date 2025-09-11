@@ -14,7 +14,7 @@ const Header = () => {
   ];
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border">
+    <header className="fixed top-0 left-0 right-0 z-50 nav-blur border-b border-white/20 shadow-lg">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Top bar with contact info */}
         <div className="hidden md:flex items-center justify-end py-2 text-sm text-muted-foreground border-b border-border/50">
@@ -31,14 +31,14 @@ const Header = () => {
         </div>
 
         {/* Main navigation */}
-        <div className="flex items-center justify-between py-4">
+        <div className="flex items-center justify-between py-6">
           {/* Logo */}
           <div className="flex items-center">
-            <div className="flex-shrink-0">
-              <h1 className="text-xl font-bold text-primary">
+            <div className="flex-shrink-0 group">
+              <h1 className="text-2xl font-bold text-glow bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent group-hover:scale-105 transition-transform duration-300">
                 GROUP EROVEEM-FY
               </h1>
-              <p className="text-sm text-muted-foreground">Côte d'Ivoire</p>
+              <p className="text-sm text-muted-foreground group-hover:text-primary transition-colors duration-300">Côte d'Ivoire</p>
             </div>
           </div>
 
@@ -48,17 +48,18 @@ const Header = () => {
               <a
                 key={item.name}
                 href={item.href}
-                className="text-foreground hover:text-primary transition-colors duration-200 font-medium"
+                className="text-foreground hover:text-primary transition-all duration-300 font-medium relative group"
               >
                 {item.name}
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-secondary transition-all duration-300 group-hover:w-full"></span>
               </a>
             ))}
           </nav>
 
           {/* CTA Button */}
-          <div className="hidden md:block">
-            <Button className="btn-primary">
-              Nous Contacter
+          <div className="hidden md:block group">
+            <Button className="btn-primary group-hover:scale-105 transition-transform duration-300">
+              <span className="relative z-10">Nous Contacter</span>
             </Button>
           </div>
 
