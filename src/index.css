@@ -166,7 +166,7 @@
 
   /* Premium Cards with 3D effects */
   .card-corporate {
-    @apply bg-card rounded-2xl p-8 border border-border/50 relative overflow-hidden group cursor-pointer;
+    @apply bg-card rounded-2xl p-8 border border-border/50 relative overflow-hidden cursor-pointer;
     box-shadow: var(--shadow-card);
     transition: var(--transition-premium);
     transform-style: preserve-3d;
