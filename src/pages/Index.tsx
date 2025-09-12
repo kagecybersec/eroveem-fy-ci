@@ -3,6 +3,7 @@ import Hero from '@/components/Hero';
 import About from '@/components/About';
 import Activities from '@/components/Activities';
 import Directory from '@/components/Directory';
+import FAQ from '@/components/FAQ';
 import Contact from '@/components/Contact';
 import Footer from '@/components/Footer';
 import ScrollAnimations from '@/components/ScrollAnimations';
@@ -17,6 +18,7 @@ const Index = () => {
         <About />
         <Activities />
         <Directory />
+        <FAQ />
         <Contact />
       </main>
       <Footer />
