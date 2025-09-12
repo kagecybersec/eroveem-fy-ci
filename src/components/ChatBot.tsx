@@ -15,24 +15,37 @@ interface ChatBotProps {
   onClose: () => void;
 }
 
-const predefinedResponses = {
-  greeting: {
-    keywords: ['bonjour', 'salut', 'hello', 'bonsoir'],
-    response: "Bonjour ! Je suis l'assistant virtuel de GROUP EROVEEM-FY Côte d'Ivoire. Comment puis-je vous aider aujourd'hui ?"
+const knowledgeBase = {
+  company: {
+    name: "GROUP EROVEEM-FY Côte d'Ivoire",
+    description: "Entreprise ivoirienne spécialisée dans la transformation agro-industrielle. Nous valorisons le manioc et d'autres ressources locales pour fournir des solutions alimentaires et industrielles durables.",
+    mission: "Contribuer à la sécurité alimentaire, au développement économique et à la valorisation des ressources locales en Côte d'Ivoire et en Afrique."
   },
   activities: {
-    keywords: ['activité', 'service', 'manioc', 'transformation', 'amidon'],
-    response: "Nous sommes spécialisés dans la transformation du manioc en produits dérivés de qualité : farine, amidon, et autres solutions agro-industrielles. Souhaitez-vous plus de détails sur nos activités ?"
+    main: "Transformation du manioc en produits dérivés de qualité",
+    products: ["Farine de manioc", "Amidon", "Produits amylacés", "Solutions agro-industrielles innovantes"],
+    focus: "Solutions adaptées aux besoins locaux et internationaux"
+  },
+  location: {
+    main: "Plateau – Abidjan, Côte d'Ivoire",
+    detailed: "II Plateaux Aghien – Cocody Mermoz, en face du CNRA",
+    accessibility: "Facilement accessibles, accueil sur rendez-vous"
   },
   contact: {
-    keywords: ['contact', 'téléphone', 'adresse', 'email', 'localisation'],
-    response: "Voici nos coordonnées :\n📍 II Plateaux Aghien – Cocody Mermoz (en face du CNRA)\n📞 (+225) 25 21 00 98 33\n📱 +225 0505050508\n📧 euphrasieyavo@yahoo.fr"
+    phone: "(+225) 25 21 00 98 33",
+    mobile: ["+225 0505050508", "+225 0748484948"],
+    email: "euphrasieyavo@yahoo.fr",
+    whatsapp: "+225 0505050508"
   },
-  quote: {
-    keywords: ['devis', 'prix', 'tarif', 'coût', 'commande'],
-    response: "Pour obtenir un devis personnalisé, je vous invite à nous contacter directement par téléphone au (+225) 25 21 00 98 33 ou par WhatsApp. Nos équipes vous répondront rapidement !"
-  },
-  default: "Je comprends votre question. Pour une réponse plus précise, n'hésitez pas à nous contacter directement. Puis-je vous aider avec autre chose concernant nos activités ou nos coordonnées ?"
+  clients: {
+    types: [
+      "Entreprises agroalimentaires cherchant des matières premières locales de qualité",
+      "Partenaires institutionnels et ONG engagés dans le développement agricole",
+      "Distributeurs et commerçants en quête de produits amylacés fiables et compétitifs",
+      "Communautés rurales pour valoriser la production agricole locale"
+    ],
+    philosophy: "Collaboration gagnant-gagnant et impact positif sur toute la chaîne de valeur"
+  }
 };
 
 const ChatBot = ({ isOpen, onClose }: ChatBotProps) => {
@@ -49,17 +62,36 @@ const ChatBot = ({ isOpen, onClose }: ChatBotProps) => {
   const getResponse = (userMessage: string): string => {
     const message = userMessage.toLowerCase();
     
-    for (const [key, responseData] of Object.entries(predefinedResponses)) {
-      if (key === 'default') continue;
-      
-      if (typeof responseData === 'object' && 'keywords' in responseData) {
-        if (responseData.keywords.some(keyword => message.includes(keyword))) {
-          return responseData.response;
-        }
-      }
+    // Analyse intelligente basée sur la base de connaissances
+    if (message.includes('qui') && (message.includes('êtes') || message.includes('vous') || message.includes('entreprise'))) {
+      return `${knowledgeBase.company.name} est une ${knowledgeBase.company.description.toLowerCase()}\n\n🎯 ${knowledgeBase.company.mission}`;
     }
     
-    return predefinedResponses.default;
+    if (message.includes('activité') || message.includes('service') || message.includes('manioc') || message.includes('transformation') || message.includes('produit')) {
+      return `Nos principales activités :\n\n✅ ${knowledgeBase.activities.main}\n✅ Fabrication : ${knowledgeBase.activities.products.join(', ')}\n✅ ${knowledgeBase.activities.focus}\n\nSouhaitez-vous plus de détails sur un produit spécifique ?`;
+    }
+    
+    if (message.includes('où') || message.includes('adresse') || message.includes('localisation') || message.includes('situé')) {
+      return `📍 Nous sommes situés à :\n\n🏢 ${knowledgeBase.location.main}\n📍 ${knowledgeBase.location.detailed}\n\n${knowledgeBase.location.accessibility}`;
+    }
+    
+    if (message.includes('contact') || message.includes('téléphone') || message.includes('email') || message.includes('joindre')) {
+      return `📞 Contactez-nous :\n\n📞 Standard : ${knowledgeBase.contact.phone}\n📱 Mobiles : ${knowledgeBase.contact.mobile.join(' / ')}\n📧 Email : ${knowledgeBase.contact.email}\n💬 WhatsApp : ${knowledgeBase.contact.whatsapp}`;
+    }
+    
+    if (message.includes('client') || message.includes('partenaire') || message.includes('qui') && message.includes('travail')) {
+      return `🤝 Nos partenaires et clients :\n\n${knowledgeBase.clients.types.map((type, index) => `${index + 1}. ${type}`).join('\n')}\n\n💡 ${knowledgeBase.clients.philosophy}`;
+    }
+    
+    if (message.includes('devis') || message.includes('prix') || message.includes('tarif') || message.includes('commande')) {
+      return `💼 Pour un devis personnalisé :\n\n📞 Appelez-nous au ${knowledgeBase.contact.phone}\n📱 WhatsApp : ${knowledgeBase.contact.whatsapp}\n📧 Email : ${knowledgeBase.contact.email}\n\nNos équipes vous répondront rapidement avec une proposition adaptée à vos besoins !`;
+    }
+    
+    if (message.includes('bonjour') || message.includes('salut') || message.includes('hello') || message.includes('bonsoir')) {
+      return `Bonjour ! 👋\n\nJe suis l'assistant virtuel de ${knowledgeBase.company.name}. Je peux vous renseigner sur :\n\n• Nos activités et produits\n• Nos coordonnées\n• Nos partenaires\n• Demande de devis\n\nComment puis-je vous aider ?`;
+    }
+    
+    return `Je vous remercie pour votre question. Pour une réponse précise et personnalisée, je vous invite à :\n\n📞 Nous appeler : ${knowledgeBase.contact.phone}\n📧 Nous écrire : ${knowledgeBase.contact.email}\n💬 WhatsApp : ${knowledgeBase.contact.whatsapp}\n\nPuis-je vous aider avec autre chose concernant ${knowledgeBase.company.name} ?`;
   };
 
   const handleSendMessage = () => {
@@ -111,19 +143,24 @@ const ChatBot = ({ isOpen, onClose }: ChatBotProps) => {
       />
       
       {/* Chat Window */}
-      <div className="relative glass-card w-full max-w-md h-[500px] flex flex-col animate-slide-in-right">
+      <div className="relative glass-card w-full max-w-md h-[500px] flex flex-col animate-slide-in-right border-2 border-primary/20 shadow-2xl shadow-primary/10">
         {/* Header */}
-        <div className="flex items-center justify-between p-4 border-b border-border">
+        <div className="flex items-center justify-between p-4 border-b border-border bg-gradient-to-r from-primary/5 to-secondary/5">
           <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-gradient-to-r from-primary to-secondary rounded-full flex items-center justify-center">
-              <Bot className="h-5 w-5 text-white" />
+            <div className="relative w-12 h-12 bg-gradient-to-br from-primary via-secondary to-accent rounded-full flex items-center justify-center shadow-lg">
+              <div className="absolute inset-0 rounded-full bg-gradient-to-t from-white/0 to-white/20"></div>
+              <Bot className="h-6 w-6 text-primary-foreground relative z-10" />
+              <div className="absolute top-0 right-0 w-3 h-3 bg-green-400 rounded-full border-2 border-white animate-pulse"></div>
             </div>
             <div>
-              <h3 className="font-semibold text-foreground">Assistant Virtuel</h3>
-              <p className="text-sm text-muted-foreground">En ligne</p>
+              <h3 className="font-bold text-foreground">Assistant IA Expert</h3>
+              <p className="text-sm text-green-500 font-medium flex items-center gap-1">
+                <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+                En ligne • Base de connaissances active
+              </p>
             </div>
           </div>
-          <Button variant="ghost" size="icon" onClick={onClose}>
+          <Button variant="ghost" size="icon" onClick={onClose} className="hover:bg-destructive/10 hover:text-destructive">
             <X className="h-5 w-5" />
           </Button>
         </div>
